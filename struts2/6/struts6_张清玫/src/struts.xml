@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+  <struts>
+     <constant name="struts.devMode" value="true"></constant>
+     <constant name="struts.custom.i18n.resources" value="com.qhit.action.LoginAction"></constant>
+     <package name="struts2_gjyz" extends="struts-default" namespace="/login">
+          <action name="loginAction_*" class="com.qhit.action.LoginAction" method="{1}">
+              <result name="success">/index.jsp</result>
+              <result name="input">/login.jsp</result>
+          </action>
+     </package>
+ </struts>
