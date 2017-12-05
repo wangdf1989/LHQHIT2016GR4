@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<constant name="struts.custom.i18n.resources" value="com.qhit.User.action.UserAction"/>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<package name="user" extends="struts-default" namespace="/user">
+		<interceptors>
+			<interceptor name="loginInterceptor" class="com.qhit.common.interceptor.LoginInterceptor"/>
+			<interceptor-stack name="loginInterceptorStack">
+				<interceptor-ref name="loginInterceptor"/>
+				<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="loginInterceptorStack"/>
+		<global-results>
+			<result name="login" type="redirect">/show.jsp</result>
+		</global-results>
+		<action name="UserAction_*" class="com.qhit.User.action.UserAction" method="{1}">
+			<result name="success" type="chain">
+				<param name="actionName">studentAction_selAllStudent</param>
+				<param name="namespace">/student</param>
+			</result>
+			<result name="input">/show.jsp</result>
+		</action>
+	</package>
+	
+	<package name="student" extends="user" namespace="/student">
+		<action name="studentAction_*" class="com.qhit.Student.action.StudentAction" method="{1}">
+			<result name="success">/index.jsp</result>
+			<result name="input">/stuForm.jsp</result>
+			<result name="all" type="redirectAction">studentAction_selAllStudent</result>
+		</action>
+	</package>
+</struts>
