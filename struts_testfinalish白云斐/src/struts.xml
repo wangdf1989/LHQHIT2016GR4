@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<package name="user" extends="struts-default" namespace="/user">
+		<interceptors>
+			<interceptor name="loginInterceptor" class="test.common.interceptor.loginInterceptor"/>
+			<interceptor-stack name="loginInterceptorStack">
+				<interceptor-ref name="loginInterceptor"/>
+				<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="loginInterceptorStack"/>
+		<global-results>
+			<result name="login" type="redirect">/login.jsp</result>
+		</global-results>
+		<action name="useraction_*" class="test.user.action.useraction" method="{1}">
+			<result name="success" type="chain">
+				<param name="actionName">studentaction_selAllStudent</param>
+				<param name="namespace">/student</param>
+			</result>
+			<result name="input">/login.jsp</result>
+		</action>
+	</package>
+	<package name="student" extends="user" namespace="/student">
+		<action name="studentaction_*" class="test.student.action.studentaction" method="{1}">
+			<result name="success">/index.jsp</result>
+			<result name="input">/servise.jsp</result>
+			<result name="all" type="redirectAction">studentaction_selAllStudent</result>
+		</action>
+	</package>
+</struts>
