@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+    
+<struts>   
+	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<package name="user" extends="struts-default" namespace="/user">
+		<action name="useraction_*" class="www.luo.user.action.useraction" method="{1}" >
+			<result name="success" type="chain">
+				<param name="actionName">studentaction_heheall</param>
+				<param name="namespace">/student</param>
+			</result>
+			<result name="input" >/login.jsp</result>
+		</action>
+	</package>
+	<package name="student" extends="user" namespace="/student">
+		<action name="studentaction_*" class="www.luo.student.action.studentaction" method="{1}" >
+			<result name="success">/index.jsp</result>
+			<result name="input">/add.jsp</result>
+			<result name="all" type="redirectAction">studentaction_heheall</result>
+		</action>
+	</package>
+</struts>
