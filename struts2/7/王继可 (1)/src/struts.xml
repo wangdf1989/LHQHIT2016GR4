@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.multipart.maxSize" value="1024000000"/>
+	<constant name="struts.devMode" value="true"/>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<package name="file" extends="struts-default">
+		<action name="UserAction" class="com.qhit.action.UserAction">
+			<interceptor-ref name="defaultStack">
+				<param name="uploadFile.maximumSize">1024000000</param> <!-- 上传文件的大小 -->
+				<param name="uploadFile.allowedExtensions">.doc,.text,.mp3</param>
+			</interceptor-ref>
+			<result name="success">/index.jsp</result>
+			<!-- 下载配置 -->
+			<result name="download" type="stream">
+				<param name="contentType">image/pjpeg</param>
+				<param name="inputName">fileName_is</param>
+				<param name="contentDisposition">filename="${fileName}"</param>
+			</result> 
+		</action>
+	</package>
+</struts>
